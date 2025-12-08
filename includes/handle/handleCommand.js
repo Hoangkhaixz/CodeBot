@@ -80,17 +80,7 @@ const dataAdbox = require('./../../modules/commands/cache/data.json');
      const checker = stringSimilarity.findBestMatch(commandName, allCommandName);
      if (checker.bestMatch.rating >= 0.5) command = client.commands.get(checker.bestMatch.target);
      else { 
-
-    let callback = function () {
-      api.sendMessage({
-        body: `${global.getText("handleCommand", "commandNotExist", checker.bestMatch.target)}`,
-       //attachment: [fs.createReadStream(__dirname + `/1.png`), fs.createReadStream(__dirname + `/2.png`)]
-         }, event.threadID, () => {
-           fs.unlinkSync(__dirname + `/1.png`);
-           fs.unlinkSync(__dirname + `/2.png`);
-         }, event.messageID);
-       };
-           vtuanhihi(image1,'1.png',()=>{vtuanhihi(image2,'2.png',callback)})
+       return;
   }
 }
 
