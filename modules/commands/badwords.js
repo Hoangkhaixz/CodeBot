@@ -2,10 +2,13 @@ const fs = require("fs");
 
 module.exports.config = {
     name: "badwords",
-    eventType: ["message", "message_reply"],
     version: "1.0.0",
+    hasPermssion: 0,
     credits: "Bot",
-    description: "Tự động trả lời khi phát hiện từ tục"
+    description: "Tự động trả lời khi phát hiện từ tục",
+    commandCategory: "Tiện ích",
+    usages: "",
+    cooldowns: 0
 };
 
 const badWordsMap = {
@@ -37,10 +40,10 @@ const badWordsMap = {
 
 const cooldowns = new Map();
 
-module.exports.run = async function({ api, event }) {
+module.exports.handleEvent = async function({ api, event }) {
     const { threadID, body, senderID, messageID } = event;
     
-    if (!body || senderID === api.getCurrentUserID()) return;
+    if (!body || senderID == api.getCurrentUserID()) return;
     
     const currentTime = Date.now();
     const cooldownKey = `${threadID}_badwords`;
@@ -49,12 +52,15 @@ module.exports.run = async function({ api, event }) {
     const lowerBody = body.toLowerCase().trim();
     
     for (const [badWord, responses] of Object.entries(badWordsMap)) {
-        const regex = new RegExp(`(^|\\s)${badWord}($|\\s|[.,!?])`, 'i');
-        if (regex.test(lowerBody) || lowerBody === badWord) {
+        if (lowerBody.includes(badWord)) {
             const randomResponse = responses[Math.floor(Math.random() * responses.length)];
             api.sendMessage(`💬 ${randomResponse}`, threadID, messageID);
             cooldowns.set(cooldownKey, currentTime);
             return;
         }
     }
+};
+
+module.exports.run = async function({ api, event }) {
+    return api.sendMessage("Module tự động trả lời từ tục đang hoạt động!", event.threadID, event.messageID);
 };
