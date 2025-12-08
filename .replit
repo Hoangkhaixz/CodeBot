@@ -1,6 +1,7 @@
 run = ["bash", "main.sh"]
 
 entrypoint = "main.sh"
+modules = ["nodejs-20", "python-3.11"]
 
 [nix]
 channel = "stable-22_11"
@@ -34,3 +35,26 @@ externalPort = 8080
 
 [agent]
 expertMode = true
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start Facebook Bot"
+
+[[workflows.workflow]]
+name = "Start Facebook Bot"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node index.js"
+
+[workflows.workflow.metadata]
+outputType = "console"
