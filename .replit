@@ -30,6 +30,10 @@ externalPort = 80
 localPort = 2020
 
 [[ports]]
+localPort = 3004
+externalPort = 3001
+
+[[ports]]
 localPort = 8080
 externalPort = 8080
 
