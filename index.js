@@ -60,18 +60,28 @@ function startBot(message) {
     });
 
    child.on("close",async (codeExit) => {
-      var x = 'codeExit'.replace('codeExit',codeExit);
-        if (codeExit == 1) return startBot("BOT RESTARTING!!!");
-         else if (x.indexOf(2) == 0) {
-           await new Promise(resolve => setTimeout(resolve, parseInt(x.replace(2,'')) * 1000));
-                 startBot("Bot has been activated please wait a moment!!!");
-       }
-         else return; 
+        logger("Bot đã tắt với mã: " + codeExit, "BOT STATUS");
+        // Tự động restart lại sau 5 giây nếu bot crash
+        setTimeout(() => {
+            startBot("🔄 BOT RESTART TỰ ĐỘNG - Duy trì hoạt động 24/7");
+        }, 5000);
     });
 
     child.on("error", function (error) {
-        logger("An error occurred: " + JSON.stringify(error), "[ Starting ]");
+        logger("❌ Lỗi: " + JSON.stringify(error), "ERROR");
+        // Retry lại khi có lỗi
+        setTimeout(() => {
+            startBot("🔄 BOT KHÔI PHỤC - Lỗi kết nối");
+        }, 3000);
     });
+    
+    // Kiểm tra heartbeat - nếu process bị treo sẽ tự restart
+    setInterval(() => {
+        if (child.exitCode !== null) {
+            logger("⚠️ Bot ngừng hoạt động, đang khôi phục...", "HEARTBEAT");
+            startBot("🔄 HEARTBEAT RECOVERY");
+        }
+    }, 30000); // Check mỗi 30 giây
 };
 axios.get("https://raw.githubusercontent.com/tandung1/Bot12/main/package.json").then((res) => {
     //logger(res['data']['name'], "[ TÊN PR0JECT ]");

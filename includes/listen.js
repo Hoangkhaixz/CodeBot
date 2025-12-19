@@ -1,4 +1,8 @@
 module.exports = function ({ api, models }) {
+  // ✅ START HEARTBEAT & RECONNECT MANAGER
+  const reconnect = require("../lib/reconnect.js");
+  reconnect.startHeartbeat(api);
+  
   setInterval(function () {
     if(global.config.NOTIFICATION) {
       require("./handle/handleNotification.js")({ api });

@@ -428,4 +428,14 @@ function onBot({ models: botModel }) {
         onBot(botData);
     } catch (error) { logger(global.getText('mirai', 'successConnectDatabase', JSON.stringify(error)), '[ DATABASE ]'); }
 })();
-process.on('unhandledRejection', (err, p) => {});
+// ✅ RECONNECT & KEEP-ALIVE LOGIC FOR 24/7 OPERATION
+const reconnect = require('./lib/reconnect.js');
+
+process.on('unhandledRejection', (err, p) => {
+    require('./utils/log.js')('❌ Unhandled Rejection: ' + JSON.stringify(err), 'ERROR');
+});
+
+process.on('uncaughtException', (err) => {
+    require('./utils/log.js')('❌ Uncaught Exception: ' + JSON.stringify(err), 'ERROR');
+    process.exit(1); // Restart bot
+});

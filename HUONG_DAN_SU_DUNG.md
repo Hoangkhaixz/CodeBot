@@ -41,6 +41,30 @@ npm install
 node index.js
 ```
 
+### 🎯 Bot Chạy 24/7 Xuyên Đêm
+
+Bot được cấu hình để hoạt động liên tục 24/7, kể cả khi tắt Facebook:
+
+✅ **Auto-Restart:** Nếu bot bị crash, nó sẽ tự động khởi động lại trong 5 giây
+✅ **Heartbeat Check:** Mỗi 30 giây bot kiểm tra kết nối, nếu bị ngắt sẽ tự động phục hồi
+✅ **Connection Recovery:** Nếu mất kết nối, bot sẽ thử kết nối lại tối đa 5 lần
+✅ **Keep-Alive:** Mỗi 5 phút bot gửi heartbeat để duy trì kết nối
+
+**Cách hoạt động:**
+```
+Bot Chạy (index.js)
+    ↓
+Spawn main.js process
+    ↓
+Kết nối Facebook
+    ↓
+Bắt đầu nghe tin nhắn
+    ↓
+24/7 Monitoring (Heartbeat, Reconnect)
+    ↓
+Nếu crash → Tự động restart trong 5s
+```
+
 ### Tệp cấu hình:
 - `config.json` - Cấu hình chính (PREFIX, BOTNAME, ADMINBOT, etc.)
 
