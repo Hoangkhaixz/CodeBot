@@ -2,7 +2,7 @@ module.exports.config = {
     name: "badwords",
     version: "1.1.0",
     hasPermssion: 0,
-    credits: "Bot",
+    credits: "Cyan",
     description: "Tự động trả lời và xoá tin nhắn khi phát hiện từ tục",
     commandCategory: "Tiện ích",
     usages: "",
