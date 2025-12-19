@@ -1,9 +1,7 @@
-const fs = require("fs");
-
 module.exports.config = {
     name: "badwords",
     version: "1.1.0",
-    hasPermssion: 1,
+    hasPermssion: 0,
     credits: "Bot",
     description: "Tự động trả lời và xoá tin nhắn khi phát hiện từ tục",
     commandCategory: "Tiện ích",
@@ -11,12 +9,12 @@ module.exports.config = {
     cooldowns: 0,
 };
 
-const badWordsMap = {
+const BAD_WORDS = {
     dmm: ["discord mom", "đừng mạnh mồm", "đá mông mày"],
     cmm: ["cool meme master", "chơi mạng mà", "cười mím môi"],
     đmm: ["discord mom", "đừng mạnh mồm", "đá mông mày"],
     dm: ["discord member", "đẹp mãi", "dễ mến"],
-    đm: ["đẹp mãi", "dễ mến", "discord member"],
+    đm: ["đẽp mãi", "dễ mến", "discord member"],
     cc: ["chú chó", "chào cậu", "cute cute"],
     vcl: ["very cool lắm", "việc chi lạ", "vui cười lên"],
     vl: ["very lovely", "vui lắm", "việc lạ"],
@@ -45,41 +43,28 @@ module.exports.handleEvent = async function ({ api, event }) {
 
     if (!body || senderID === api.getCurrentUserID()) return;
 
-    const currentTime = Date.now();
     const cooldownKey = `${threadID}_badwords`;
+    const now = Date.now();
 
-    if (
-        cooldowns.has(cooldownKey) &&
-        currentTime - cooldowns.get(cooldownKey) < 2500
-    )
-        return;
+    if (cooldowns.has(cooldownKey) && now - cooldowns.get(cooldownKey) < 2500) return;
 
-    const lowerBody = body.toLowerCase().trim();
+    const text = body.toLowerCase().trim();
 
-    for (const [badWord, responses] of Object.entries(badWordsMap)) {
-        const regex = new RegExp(`(^|\\s|[.,!?])${badWord}(\\s|$|[.,!?])`, "i");
-        if (regex.test(lowerBody)) {
-            const randomResponse =
-                responses[Math.floor(Math.random() * responses.length)];
+    for (const [badWord, responses] of Object.entries(BAD_WORDS)) {
+        if (new RegExp(`(^|\\s|[.,!?])${badWord}(\\s|$|[.,!?])`, "i").test(text)) {
+            const reply = responses[Math.floor(Math.random() * responses.length)];
 
-            // 🔥 Reply đúng tin nhắn người gửi
-            api.sendMessage(
-                `౨ৎ 𝑮𝒐̛̣𝒊 𝒊́ 𝒕𝒖̛̀ 𝒏𝒈𝒖̛̃: ${randomResponse}`,
-                threadID,
-                messageID,
-            );
-
-            // ❌ Xoá tin nhắn tục của người dùng
+            api.sendMessage(`౨ৎ 𝑮𝒐̛̣𝒊 𝒊́ 𝒕𝒖̛̀ 𝒏𝒈𝒖̛̃: ${reply}`, threadID, messageID);
             api.unsendMessage(messageID);
 
-            cooldowns.set(cooldownKey, currentTime);
+            cooldowns.set(cooldownKey, now);
             return;
         }
     }
 };
 
 module.exports.run = async function ({ api, event }) {
-    return api.sendMessage(
+    api.sendMessage(
         "Module lọc từ tục + reply + auto xoá tin nhắn đã hoạt động!",
         event.threadID,
         event.messageID,
