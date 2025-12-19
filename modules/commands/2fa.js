@@ -3,7 +3,7 @@ class get2fa {
       return {
         name: "2fa",
         version: "1.1.2",
-        hasPermssion: 3,
+        hasPermssion: 1,
         credits: "Judas",
         description: "get2fa",
         commandCategory: "Hệ Thống",
