@@ -68,6 +68,10 @@ Nếu crash → Tự động restart trong 5s
 ### Tệp cấu hình:
 - `config.json` - Cấu hình chính (PREFIX, BOTNAME, ADMINBOT, etc.)
 
+### 🌍 Deploy Bot 24/7 Khi Tắt Replit
+Nếu bạn muốn bot chạy xuyên đêm kể cả lúc tắt Replit, xem hướng dẫn chi tiết tại:
+📄 **`DEPLOY_24_7.md`** - Hướng dẫn deploy bot lên cloud (Reserved VM, UptimeRobot, etc.)
+
 ---
 
 ## 📋 Danh Sách Lệnh & Module
