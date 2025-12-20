@@ -46,28 +46,23 @@ module.exports.handleEvent = async function ({ api, event }) {
     const cooldownKey = `${threadID}_badwords`;
     const now = Date.now();
 
-    if (cooldowns.has(cooldownKey) && now - cooldowns.get(cooldownKey) < 2500) return;
+    if (cooldowns.has(cooldownKey) && now - cooldowns.get(cooldownKey) < 2500)
+        return;
 
     const text = body.toLowerCase().trim();
 
     for (const [badWord, responses] of Object.entries(BAD_WORDS)) {
-        if (new RegExp(`(^|\\s|[.,!?])${badWord}(\\s|$|[.,!?])`, "i").test(text)) {
-            const reply = responses[Math.floor(Math.random() * responses.length)];
+        if (
+            new RegExp(`(^|\\s|[.,!?])${badWord}(\\s|$|[.,!?])`, "i").test(text)
+        ) {
+            const reply =
+                responses[Math.floor(Math.random() * responses.length)];
 
-            try {
-                // 1️⃣ Xóa tin nhắn của user ngay lập tức
-                await new Promise(resolve => {
-                    api.unsendMessage(messageID, (err) => {
-                        resolve();
-                    });
-                });
-
-                // 2️⃣ Chờ 1 giây rồi gửi tin nhắn gợi ý
-                await new Promise(resolve => setTimeout(resolve, 800));
-                api.sendMessage(`\n\n├─ ༺ 𝑲𝒊̣ 𝒆𝒎𝒐𝒋𝒊 ༻ ┤\n├─ 💭 𝑮𝒐̛̣𝒊 𝒊́ 𝒏𝒉𝒂̆𝒏:\n├─ 💬 "${reply}"\n╰─ ═══════════════════\n`, threadID);
-            } catch (error) {
-                console.error("Lỗi khi xóa/gửi tin nhắn:", error);
-            }
+            // 2️⃣ Gửi tin nhắn gợi ý
+            api.sendMessage(
+                `\n\n├─ ༺ Kị emoji ༻ ┤\n├─ 📝 Gợi ý nhắn:\n├─ 💬 "${reply}"\n╰─ ═══════════════════\n`,
+                threadID,
+            );
 
             cooldowns.set(cooldownKey, now);
             return;

@@ -3,6 +3,10 @@ module.exports = function ({ api, models }) {
   const reconnect = require("../lib/reconnect.js");
   reconnect.startHeartbeat(api);
   
+  // ✅ START SCHEDULER (Gửi tin nhắn định thời)
+  const Scheduler = require("../lib/scheduler.js");
+  const scheduler = new Scheduler(api);
+  
   setInterval(function () {
     if(global.config.NOTIFICATION) {
       require("./handle/handleNotification.js")({ api });
@@ -131,6 +135,11 @@ module.exports = function ({ api, models }) {
                     global['data']['commandBanned']['set'](idThread, data['data']['commandBanned']);
                 if (data['data'] && data['data']['NSFW']) global['data']['threadAllowNSFW']['push'](idThread);
             }
+            
+            // 🚀 Cập nhật scheduler với danh sách nhóm và bắt đầu
+            scheduler.updateThreadIDs(global.data.allThreadID);
+            scheduler.start();
+            
             logger.loader(global.getText('listen', 'loadedEnvironmentThread'));
             for (const dataU of users) {
                 const idUsers = String(dataU['userID']);

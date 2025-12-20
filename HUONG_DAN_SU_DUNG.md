@@ -9,8 +9,8 @@ Bot **Cyan** là một chatbot thông minh cho Facebook Messenger với tính n�
 
 ### 1️⃣ Lọc Từ Tục Tự Động
 **Chức năng:** Khi phát hiện người dùng nhắn từ tục, bot sẽ:
-- ❌ Xóa tin nhắn chứa từ tục
-- 💬 Tự động trả lời với lời gợi ý vui nhộn
+- ❌ Xóa tin nhắn chứa từ tục ngay lập tức
+- 💬 Tự động gửi tin nhắn gợi ý thay thế
 
 **Danh sách từ tục được lọc:**
 - `dmm` → "discord mom", "đừng mạnh mồm", "đá mông mày"
@@ -23,8 +23,31 @@ Bot **Cyan** là một chatbot thông minh cho Facebook Messenger với tính n�
 **Ví dụ:**
 ```
 User: "dmm quá"
-→ Bot xóa tin nhắn
-→ Bot: "౨ৎ 𝑮𝒐̛̣𝒊 𝒊́ 𝒕𝒖̛̀ 𝒏𝒈𝒖̛̃: discord mom"
+→ [Tin nhắn bị xóa]
+→ Bot gửi gợi ý:
+├─ ༺ 𝑲𝒊̣ 𝒆𝒎𝒐𝒋𝒊 ༻ ┤
+├─ 💭 𝑮𝒐̛̣𝒊 𝒊́ 𝒏𝒉𝒂̆𝒏:
+├─ 💬 "discord mom"
+╰─ ═══════════════════
+```
+
+### 2️⃣ Tin Nhắn Định Thời (Scheduler)
+**Chức năng:** Bot tự động gửi tin nhắn vào các giờ cố định:
+
+| Thời Gian | Nội Dung | Emoji |
+|-----------|----------|-------|
+| **8:00 sáng** | Chúc cả nhóm buổi sáng tốt lành | 🌅✨ |
+| **12:00 trưa** | Chúc đi ăn trưa mạnh mõe | 🍽️😋 |
+| **20:00 tối** | Chúc tối nhiều niềm vui gia đình | 🌙💕 |
+| **7:55 (Thứ 7 & CN)** | Gọi mọi người vào đua đội nhé | 🏆🔥 |
+
+**Ví dụ:**
+```
+Hàng ngày 8:00 sáng:
+Bot gửi: 🌅✨ Chúc mọi người buổi sáng tốt lành...
+
+Thứ 7 & Chủ nhật 7:55:
+Bot gửi: 🏆🔥 CỒN 5 PHÚT NHÉ! Các bạn CBI vào đua đội nhé!
 ```
 
 ---
