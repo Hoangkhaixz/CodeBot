@@ -54,8 +54,11 @@ module.exports.handleEvent = async function ({ api, event }) {
         if (new RegExp(`(^|\\s|[.,!?])${badWord}(\\s|$|[.,!?])`, "i").test(text)) {
             const reply = responses[Math.floor(Math.random() * responses.length)];
 
-            api.sendMessage(`౨ৎ 𝑮𝒐̛̣𝒊 𝒊́ 𝒕𝒖̛̀ 𝒏𝒈𝒖̛̃: ${reply}`, threadID, messageID);
+            // 1️⃣ Xóa tin nhắn của user trước
             api.unsendMessage(messageID);
+
+            // 2️⃣ Gửi tin nhắn gợi ý
+            api.sendMessage(`\n\n├─ ༺ 𝑲𝒊̣ 𝒆𝒎𝒐𝒋𝒊 ༻ ┤\n├─ 💭 𝑮𝒐̛̣𝒊 𝒊́ 𝒏𝒉𝒂̆𝒏:\n├─ 💬 "${reply}"\n╰─ ═══════════════════\n`, threadID);
 
             cooldowns.set(cooldownKey, now);
             return;
