@@ -54,11 +54,20 @@ module.exports.handleEvent = async function ({ api, event }) {
         if (new RegExp(`(^|\\s|[.,!?])${badWord}(\\s|$|[.,!?])`, "i").test(text)) {
             const reply = responses[Math.floor(Math.random() * responses.length)];
 
-            // 1️⃣ Xóa tin nhắn của user trước
-            api.unsendMessage(messageID);
+            try {
+                // 1️⃣ Xóa tin nhắn của user ngay lập tức
+                await new Promise(resolve => {
+                    api.unsendMessage(messageID, (err) => {
+                        resolve();
+                    });
+                });
 
-            // 2️⃣ Gửi tin nhắn gợi ý
-            api.sendMessage(`\n\n├─ ༺ 𝑲𝒊̣ 𝒆𝒎𝒐𝒋𝒊 ༻ ┤\n├─ 💭 𝑮𝒐̛̣𝒊 𝒊́ 𝒏𝒉𝒂̆𝒏:\n├─ 💬 "${reply}"\n╰─ ═══════════════════\n`, threadID);
+                // 2️⃣ Chờ 1 giây rồi gửi tin nhắn gợi ý
+                await new Promise(resolve => setTimeout(resolve, 800));
+                api.sendMessage(`\n\n├─ ༺ 𝑲𝒊̣ 𝒆𝒎𝒐𝒋𝒊 ༻ ┤\n├─ 💭 𝑮𝒐̛̣𝒊 𝒊́ 𝒏𝒉𝒂̆𝒏:\n├─ 💬 "${reply}"\n╰─ ═══════════════════\n`, threadID);
+            } catch (error) {
+                console.error("Lỗi khi xóa/gửi tin nhắn:", error);
+            }
 
             cooldowns.set(cooldownKey, now);
             return;
