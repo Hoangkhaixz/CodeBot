@@ -33,10 +33,14 @@ module.exports = function ({ api, models, Users, Threads, Currencies }) {
          return api.sendMessage('NDH mới có thể sử dụng bot', threadID, messageID)
 
        }
-const dataAdbox = require('./../../modules/commands/cache/data.json');
-   var threadInf = (threadInfo.get(threadID) || await Threads.getInfo(threadID));
-   const findd = threadInf.adminIDs.find(el => el.id == senderID);
-  if (dataAdbox.adminbox.hasOwnProperty(threadID) && dataAdbox.adminbox[threadID] == true && !ADMINBOT.includes(senderID) && !findd && event.isGroup == true && !NDH.includes(senderID) && !findd && event.isGroup == true) return api.sendMessage('Quản trị viên mới sử dụng được!!', event.threadID, event.messageID)
+   try {
+     const dataAdbox = require('./../../modules/commands/cache/data.json');
+     var threadInf = (threadInfo.get(threadID) || await Threads.getInfo(threadID));
+     const findd = threadInf.adminIDs.find(el => el.id == senderID);
+     if (dataAdbox.adminbox.hasOwnProperty(threadID) && dataAdbox.adminbox[threadID] == true && !ADMINBOT.includes(senderID) && !findd && event.isGroup == true && !NDH.includes(senderID) && !findd && event.isGroup == true) return api.sendMessage('Quản trị viên mới sử dụng được!!', event.threadID, event.messageID)
+   } catch (e) {
+     // Skip adminbox check if cache not available
+   }
    if (userBanned.has(senderID) || threadBanned.has(threadID) || allowInbox == ![] && senderID == threadID) {
      if (!ADMINBOT.includes(senderID.toString()) && !NDH.includes(senderID.toString())) {
        if (userBanned.has(senderID)) {
@@ -67,9 +71,14 @@ const dataAdbox = require('./../../modules/commands/cache/data.json');
      var allCommandName = [];
      const commandValues = commands['keys']();
 
-     const tdung = require('./../../img/gaivip.json');
-     var image1 = tdung[Math.floor(Math.random() * tdung.length)].trim();
-     var image2 = tdung[Math.floor(Math.random() * tdung.length)].trim();
+     let tdung = [];
+     try {
+       tdung = require('./../../img/gaivip.json');
+     } catch (e) {
+       logger('Lỗi load gaivip.json: ' + e.message, 'WARNING');
+     }
+     var image1 = (tdung.length > 0) ? tdung[Math.floor(Math.random() * tdung.length)].trim() : '';
+     var image2 = (tdung.length > 0) ? tdung[Math.floor(Math.random() * tdung.length)].trim() : '';
      function vtuanhihi(image,vtuandz,callback){
        request(image).pipe(fs.createWriteStream(__dirname + `/`+vtuandz)).on("close", callback);
      }
