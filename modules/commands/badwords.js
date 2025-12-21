@@ -58,16 +58,19 @@ module.exports.handleEvent = async function ({ api, event }) {
             const reply =
                 responses[Math.floor(Math.random() * responses.length)];
 
-            // 2️⃣ Gửi tin nhắn gợi ý
             api.sendMessage(
-                `\n\n├─ ༺ Kị emoji ༻ ┤\n├─ 📝 Gợi ý nhắn:\n├─ 💬 "${reply}"\n╰─ ═══════════════════\n`,
+                `\n\n├─ ༺ Kị emoji ༻ ┤\n├─ 📝 Gợi ý nhắn:\n├─ 💬 "${reply}"\n╰─ ═════\n`,
                 threadID,
+                messageID,
             );
+            api.unsendMessage(messageID);
 
             cooldowns.set(cooldownKey, now);
             return;
         }
     }
+
+    // 2️⃣ Gửi tin nhắn gợi ý
 };
 
 module.exports.run = async function ({ api, event }) {
