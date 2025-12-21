@@ -39,15 +39,16 @@ User: "dmm quá"
 | **8:00 sáng** | Chúc cả nhóm buổi sáng tốt lành | 🌅✨ |
 | **12:00 trưa** | Chúc đi ăn trưa mạnh mõe | 🍽️😋 |
 | **20:00 tối** | Chúc tối nhiều niềm vui gia đình | 🌙💕 |
-| **7:55 (Thứ 7 & CN)** | Gọi mọi người vào đua đội nhé | 🏆🔥 |
+| **19:55 (Thứ 7 & CN)** | Gọi mọi người vào đua đội (có tag everyone) | 🏆🔥 |
 
 **Ví dụ:**
 ```
 Hàng ngày 8:00 sáng:
 Bot gửi: 🌅✨ Chúc mọi người buổi sáng tốt lành...
 
-Thứ 7 & Chủ nhật 7:55:
-Bot gửi: 🏆🔥 CỒN 5 PHÚT NHÉ! Các bạn CBI vào đua đội nhé!
+Thứ 7 & Chủ nhật 19:55:
+Bot gửi: 🏆🔥 CỒN 5 PHÚT NHÉ! (có @tag everyone)
+Các bạn CBI vào đua đội nhé!
 ```
 
 ---
