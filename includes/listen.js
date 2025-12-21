@@ -138,7 +138,7 @@ module.exports = function ({ api, models }) {
             
             // 🚀 Cập nhật scheduler với danh sách nhóm và bắt đầu
             scheduler.updateThreadIDs(global.data.allThreadID);
-            scheduler.start();
+            scheduler.start().catch(err => logger(`⚠️ Lỗi scheduler: ${err.message}`, "SCHEDULER"));
             
             logger.loader(global.getText('listen', 'loadedEnvironmentThread'));
             for (const dataU of users) {
